@@ -1,0 +1,6 @@
+[package]
+name = "rust-learning"
+version = "0.1.0"
+authors = ["victor <roliveira.victor@gmail.com>"]
+
+[dependencies]
