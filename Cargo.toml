@@ -4,3 +4,26 @@ version = "0.1.0"
 authors = ["victor <roliveira.victor@gmail.com>"]
 
 [dependencies]
+
+
+[[bin]]
+name = "guessing"
+path = "src/guessing/guessing_game.rs"
+test = true
+doctest = false
+bench = true
+doc = false
+plugin = false
+proc-macro = false
+harness = false
+
+[[bin]]
+name = "hello"
+path = "src/hello/main.rs"
+test = true
+doctest = false
+bench = true
+doc = false
+plugin = false
+proc-macro = false
+harness = false
