@@ -4,11 +4,14 @@ version = "0.1.0"
 authors = ["victor <roliveira.victor@gmail.com>"]
 
 [dependencies]
+rocket = "0.4.1"
 
+[profile.dev]
+codegen-units = 8
 
 [[bin]]
-name = "guessing"
-path = "src/guessing/guessing_game.rs"
+name = "hello"
+path = "src/rocket/hello.rs"
 test = true
 doctest = false
 bench = true
@@ -18,7 +21,18 @@ proc-macro = false
 harness = false
 
 [[bin]]
-name = "hello"
+name = "guessing"
+path = "src/guessing/game.rs"
+test = true
+doctest = false
+bench = true
+doc = false
+plugin = false
+proc-macro = false
+harness = false
+
+[[bin]]
+name = "main"
 path = "src/hello/main.rs"
 test = true
 doctest = false
