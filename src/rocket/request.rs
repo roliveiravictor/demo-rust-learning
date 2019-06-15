@@ -6,29 +6,28 @@ extern crate futures;
 extern crate hyper;
 extern crate tokio_core;
 
-use futures::{Future};
-use hyper::{Client, Uri};
+use std::io::{self, Write};
+use futures::{Future, Stream};
+use hyper::Client;
 use tokio_core::reactor::Core;
 
 #[get("/forwarding")]
-fn forwarding() -> &'static str {
-    // Core is the Tokio event loop used for making a non-blocking request
+fn forwarding() {
     let mut core = Core::new().unwrap();
-
     let client = Client::new(&core.handle());
 
-    let url : Uri = "http://httpbin.org/response-headers?foo=bar".parse().unwrap();
-    assert_eq!(url.query(), Some("foo=bar"));
+    let uri = "http://httpbin.org/ip".parse().unwrap();
+    let work =
+        client.get(uri).and_then(|res| {
+            println!("Response: {}", res.status());
 
-    let request = client.get(url)
-        .map(|res| {
-            assert_eq!(res.status(), hyper::Ok);
+            res.body().for_each(|chunk| {
+                io::stdout()
+                    .write_all(&chunk)
+                    .map_err(From::from)
+            })
         });
-
-    // request is a Future, futures are lazy, so must explicitly run
-    core.run(request).unwrap();
-
-    "Forwarded!"
+    core.run(work).unwrap();
 }
 
 fn main() {
